@@ -1,0 +1,107 @@
+from contextlib import redirect_stderr
+import tkinter
+import requests
+from bs4 import BeautifulSoup
+import urllib.parse
+from tkinter import scrolledtext
+import pprint
+
+
+def search(lang,param):
+    param = urllib.parse.quote(param) #urlエンコード
+
+    if lang == '英語':
+        weblio_en_url = 'https://ejje.weblio.jp/content/'+param
+        html_txt = requests.get(weblio_en_url).text
+        soup = BeautifulSoup(html_txt,'html.parser')
+
+        definition_elements = soup.find_all('p',class_="lvlB")
+        result=[]
+        for el in definition_elements:
+            result.append(el.text)
+        integrated = ''#絶対簡略化できると思う、改善したい
+        num = 1
+        for i in result:
+            if len(i)<=27:
+                integrated += '【' + str(num) + '】' + i + '\n'
+            else:
+                integrated += '【' + str(num) + '】' + i[:27] + '\n' + i[27:] + '\n'
+            num += 1
+
+    if lang == 'ドイツ語':
+        kotobank_de_url = 'https://kotobank.jp/dejaword/'+param
+        html_txt_de = requests.get(kotobank_de_url).text
+        soup = BeautifulSoup(html_txt_de,'html.parser')
+        
+        definition_elements = soup.find_all('p',{'data-orgtag':'meaning'})
+
+        #もしリダイレクト先が指定されていて、意味が掲載されていなかったら、
+        if '⇒' in definition_elements:
+            definition_elements.find('a')
+        else:
+            result=[]
+            for el in definition_elements:
+                result.append(el.text)
+            integrated = ''
+            for i in result:
+                if len(i)<=27:
+                    integrated += i + '\n'
+                else:
+                    integrated += i[:27] + '\n'
+
+        #ここから編集箇所
+        #redirect_elements = soup.find('p',{'data-orgtag':'meaning'}).find('a')
+        #redirecction_param = redirect_elements['href']
+
+        #redirect_elements.text
+
+
+        
+        #編集ここまで
+    
+    return integrated
+
+
+class Application(tkinter.Frame):
+    def __init__(self,root=None):
+        super().__init__(root,width=900,height=500,borderwidth=1,relief='groove')
+        self.root = root
+        self.pack()
+        self.pack_propagate(0)
+        self.create_widgets()
+
+    def create_widgets(self):
+        default=('Helvetica',11)
+
+        self.text_box = tkinter.Entry(self,font=('Helvetica',14),width=30)
+        self.text_box.pack(fill='x',padx=100)
+
+        items = ['ドイツ語','英語']        
+        self.sp = tkinter.Spinbox(self,font=default,state='readonly',values=items)
+        self.sp.pack()
+
+        button = tkinter.Button(self,text='検索',font=default,command=self.submit)
+        button.pack(fill='x',padx=130)
+        
+        global label_text
+        label_text = tkinter.StringVar()
+        label_text.set('単語を入力してボタンを押すと、\nここに検索結果が表示されます。')
+        label = tkinter.Label(
+            self,
+            font=default,
+            anchor='e',
+            justify='left',
+            textvariable=label_text,
+            )
+        label.pack()
+        
+    def submit(self):
+        lang = self.sp.get()
+        text = self.text_box.get()
+        label_text.set(search(lang,text))
+
+root = tkinter.Tk()
+root.title('調べてえら～い！')
+root.geometry('500x300')
+app = Application(root=root)
+app.mainloop()
