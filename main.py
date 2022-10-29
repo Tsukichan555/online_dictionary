@@ -90,10 +90,20 @@ class Application(tkinter.Frame):
             )
         label.pack()
         
-    def submit(self):
+        #エンターで検索
+        self.text_box.bind('<Return>',self.submit)
+
+        #Entryにフォーカス
+        #text_box.focus_set()
+
+    def submit(self,event):
         lang = self.sp.get()
         text = self.text_box.get()
         label_text.set(search(lang,text))
+        
+        
+
+
 
 root = tkinter.Tk()
 root.title('調べてえら～い！')
