@@ -35,6 +35,10 @@ def search(lang,param):
 
         try:
             redirect_url = soup.find('p',{'data-orgtag':'meaning'}).find('a')['href']
+            original_word = soup.find('p',{'data-orgtag':'meaning'}).text
+            integrated += original_word + '\n'
+            html_txt_de = requests.get('https://kotobank.jp'+redirect_url).text
+            soup = BeautifulSoup(html_txt_de,'html.parser')
         except TypeError:
             pass
 
