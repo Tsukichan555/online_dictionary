@@ -1,4 +1,3 @@
-from contextlib import redirect_stderr
 import tkinter
 import requests
 from bs4 import BeautifulSoup
@@ -32,33 +31,25 @@ def search(lang,param):
         kotobank_de_url = 'https://kotobank.jp/dejaword/'+param
         html_txt_de = requests.get(kotobank_de_url).text
         soup = BeautifulSoup(html_txt_de,'html.parser')
-        
+        integrated = ''
+
+        try:
+            redirect_url = soup.find('p',{'data-orgtag':'meaning'}).find('a')['href']
+        except TypeError:
+            pass
+
         definition_elements = soup.find_all('p',{'data-orgtag':'meaning'})
+        result=[]
+        for el in definition_elements:
+            result.append(el.text)
 
-        #もしリダイレクト先が指定されていて、意味が掲載されていなかったら、
-        if '⇒' in definition_elements:
-            definition_elements.find('a')
-        else:
-            result=[]
-            for el in definition_elements:
-                result.append(el.text)
-            integrated = ''
-            for i in result:
-                if len(i)<=27:
-                    integrated += i + '\n'
-                else:
-                    integrated += i[:27] + '\n'
+        for i in result:
+            if len(i)<=27:
+                integrated += i + '\n'
+            else:
+                integrated += i[:27] + '\n'
 
-        #ここから編集箇所
-        #redirect_elements = soup.find('p',{'data-orgtag':'meaning'}).find('a')
-        #redirecction_param = redirect_elements['href']
-
-        #redirect_elements.text
-
-
-        
-        #編集ここまで
-    
+    print(integrated)
     return integrated
 
 
