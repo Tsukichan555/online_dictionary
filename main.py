@@ -92,9 +92,8 @@ class Application(tkinter.Frame):
         
         #エンターで検索
         self.text_box.bind('<Return>',self.submit)
-
         #Entryにフォーカス
-        #text_box.focus_set()
+        self.text_box.focus_set()
 
     def submit(self,event):
         lang = self.sp.get()
