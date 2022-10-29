@@ -36,7 +36,7 @@ def search(lang,param):
         try:
             redirect_url = soup.find('p',{'data-orgtag':'meaning'}).find('a')['href']
             original_word = soup.find('p',{'data-orgtag':'meaning'}).text
-            integrated += original_word + '\n'
+            integrated += original_word + '\n\n'
             html_txt_de = requests.get('https://kotobank.jp'+redirect_url).text
             soup = BeautifulSoup(html_txt_de,'html.parser')
         except TypeError:
@@ -66,9 +66,9 @@ class Application(tkinter.Frame):
         self.create_widgets()
 
     def create_widgets(self):
-        default=('Helvetica',11)
+        default=('Helvetica',18)
 
-        self.text_box = tkinter.Entry(self,font=('Helvetica',14),width=30)
+        self.text_box = tkinter.Entry(self,font=default,width=30)
         self.text_box.pack(fill='x',padx=100)
 
         items = ['ドイツ語','英語']        
@@ -78,17 +78,9 @@ class Application(tkinter.Frame):
         button = tkinter.Button(self,text='検索',font=default,command=self.submit)
         button.pack(fill='x',padx=130)
         
-        global label_text
-        label_text = tkinter.StringVar()
-        label_text.set('単語を入力してボタンを押すと、\nここに検索結果が表示されます。')
-        label = tkinter.Label(
-            self,
-            font=default,
-            anchor='e',
-            justify='left',
-            textvariable=label_text,
-            )
-        label.pack()
+        self.view = scrolledtext.ScrolledText(self,font=default)
+        self.view.insert('1.0','単語を入力してボタンを押すと、ここに検索結果が表示されます。')
+        self.view.pack()
         
         #エンターで検索
         self.text_box.bind('<Return>',self.submit)
@@ -98,11 +90,10 @@ class Application(tkinter.Frame):
     def submit(self,event):
         lang = self.sp.get()
         text = self.text_box.get()
-        label_text.set(search(lang,text))
-        
-        
 
-
+        textv = search(lang,text)
+        self.view.delete(1.0,tkinter.END)
+        self.view.insert('1.0',textv)
 
 root = tkinter.Tk()
 root.title('調べてえら～い！')
