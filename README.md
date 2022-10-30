@@ -9,11 +9,11 @@
 ## バージョン履歴
 
 ## アップデートする予定の内容
-[](https://github.com/Tsukichan555/online_dictionary/blob/main/ToDo.txt)をご覧ください。
+[https://github.com/Tsukichan555/online_dictionary/blob/main/ToDo.txt](https://github.com/Tsukichan555/online_dictionary/blob/main/ToDo.txt)をご覧ください。
 
 ## QUICK START
 実行ファイルをDLしたい場合：  
-[](https://github.com/Tsukichan555/online_dictionary/raw/main/main.exe)
+[https://github.com/Tsukichan555/online_dictionary/raw/main/main.exe](https://github.com/Tsukichan555/online_dictionary/raw/main/main.exe)
 
 コードをDLしたい場合：
 ```
