@@ -3,7 +3,7 @@ from tkinter.font import NORMAL
 import requests
 from bs4 import BeautifulSoup
 import urllib.parse
-from tkinter import DISABLED, scrolledtext
+from tkinter import scrolledtext
 
 def search(lang,param):
     param = urllib.parse.quote(param) #urlエンコード
@@ -79,7 +79,7 @@ class Application(tkinter.Frame):
         #検索結果領域
         self.view = scrolledtext.ScrolledText(self,font=default)
         self.view.insert('1.0','単語を入力してボタンを押すと、ここに検索結果が表示されます。')
-        self.view.config(state=DISABLED)
+        self.view.config(state=tkinter.DISABLED)
 
         #エンターで検索
         self.text_box.bind('<Return>',self.submit)
@@ -99,10 +99,10 @@ class Application(tkinter.Frame):
         text = self.text_box.get()
 
         textv = search(lang,text)
-        self.view.config(state=NORMAL)
+        self.view.config(state=tkinter.NORMAL)
         self.view.delete(1.0,tkinter.END)
         self.view.insert('1.0',textv)
-        self.view.config(state=DISABLED)
+        self.view.config(state=tkinter.DISABLED)
 
 root = tkinter.Tk()
 root.title('DICTIONARIUM')
