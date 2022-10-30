@@ -9,7 +9,7 @@
 ## バージョン履歴
 
 ## アップデートする予定の内容
-[]()をご覧ください。
+[](https://github.com/Tsukichan555/online_dictionary/blob/main/ToDo.txt)をご覧ください。
 
 ## QUICK START
 実行ファイルをDLしたい場合：  
