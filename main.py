@@ -105,7 +105,7 @@ class Application(tkinter.Frame):
         self.view.config(state=DISABLED)
 
 root = tkinter.Tk()
-root.title('LATIN-GRAECUM DICTIONARIUM')
+root.title('DICTIONARIUM')
 root.geometry('500x300')
 app = Application(master=root)
 app.mainloop()
