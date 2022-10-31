@@ -1,5 +1,4 @@
 import tkinter
-from tkinter.font import NORMAL
 import requests
 from bs4 import BeautifulSoup
 import urllib.parse
@@ -58,33 +57,35 @@ def search(lang,param):
 
 
 class Application(tkinter.Frame):
+    #apperance
+    default = ('游明朝',18)
+    color1 = "beige"
+    color2 = "white"
+    accentcolor = "pink"
+
     def __init__(self,master=None):
-        super().__init__(master,borderwidth=1,relief='flat') #width=900,height=500,
+        super().__init__(master,borderwidth=1,bg=self.color1,relief='flat')
         self.pack()
-        #self.pack_propagate(0)
         self.create_widgets()
 
     def create_widgets(self):
-        default=('游明朝',18)
 
         #検索バー
         self.searchbar = tkinter.Frame(self,relief=tkinter.GROOVE)
-        self.text_box = tkinter.Entry(self.searchbar,font=default,width=30)
-        self.button = tkinter.Button(self.searchbar,text='検索(E)',font=default,command=self.submit,width=10)#
+        self.text_box = tkinter.Entry(self.searchbar,font=self.default,width=30)
+        self.text_box.bind('<Return>',self.submit)
+        self.text_box.focus_set()
+        self.button = tkinter.Button(self.searchbar,text='検索(E)',font=self.default,command=self.submit,width=10,bg=self.accentcolor)
 
         #言語選択
         items = ['ドイツ語','英語']        
-        self.selection = tkinter.Spinbox(self,font=default,state='readonly',values=items,width=20)
+        self.selection = tkinter.Spinbox(self,font=self.default,state='readonly',values=items)
 
         #検索結果領域
-        self.view = scrolledtext.ScrolledText(self,font=default)
+        self.view = scrolledtext.ScrolledText(self,bg=self.color1,font=self.default,bd=0)
         self.view.insert('1.0','単語を入力してボタンを押すと、ここに検索結果が表示されます。')
         self.view.config(state=tkinter.DISABLED)
 
-        #エンターで検索
-        self.text_box.bind('<Return>',self.submit)
-        #Entryにフォーカス
-        self.text_box.focus_set()
         #配置
         self.searchbar.pack()
         self.selection.pack()

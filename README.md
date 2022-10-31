@@ -12,8 +12,6 @@ Weblio英和辞典・コトバンク内のプログレッシブ独和辞典を�
 [ToDo.txt](https://github.com/Tsukichan555/online_dictionary/blob/main/ToDo.txt)をご覧ください。
 
 ## QUICK START
-### コードをDLする場合
-`pip install git+https://github.com/Tsukichan555/online_dictionary.git`
 ### アプリ（実行ファイル）をDLする場合
 最新のReleaseよりDICTIONRIUM.zipをDLしてください。Windows Defenderがおせっかいしてきますが、無視していただいて構いません。
 
